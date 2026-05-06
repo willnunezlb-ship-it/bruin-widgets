@@ -16,26 +16,36 @@
       overflow: hidden;
     }
 
-    .card {
-      width: calc(100% - 4vw);
-      margin: 2vw;
-      height: calc(100% - 4vw);
-      padding: 5vw;
+    /* outer wrapper fills the iframe */
+    .wrapper {
+      width: 100%;
+      height: 100%;
+      padding: 8px;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 1.5vw;
-      position: relative;
+    }
+
+    /* card is the container — all children scale off cqw */
+    .card {
+      container-type: inline-size;
+      container-name: card;
+      flex: 1;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
+      padding: 5cqw 6cqw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2cqw;
+      position: relative;
+      overflow: hidden;
     }
 
     .version {
       position: absolute;
-      top: 3vw;
-      left: 4vw;
-      font-size: clamp(8px, 1.8vw, 11px);
+      top: 3cqw;
+      left: 4cqw;
+      font-size: clamp(7px, 2cqw, 10px);
       font-weight: 500;
       letter-spacing: 0.1em;
       color: rgba(255,255,255,0.2);
@@ -43,37 +53,37 @@
     }
 
     .label {
-      font-size: clamp(8px, 2vw, 11px);
+      font-size: clamp(7px, 2.2cqw, 11px);
       font-weight: 500;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.35);
-      margin-top: 4vw;
+      margin-top: 3cqw;
     }
 
     .week-row {
       display: flex;
       align-items: baseline;
-      gap: 1.5vw;
+      gap: 2cqw;
     }
 
     .week-number {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(32px, 18vw, 80px);
+      font-size: clamp(28px, 20cqw, 84px);
       line-height: 1;
       color: #FFD100;
       letter-spacing: 0.02em;
     }
 
     .week-of {
-      font-size: clamp(10px, 3vw, 14px);
+      font-size: clamp(9px, 3.5cqw, 14px);
       font-weight: 300;
       color: rgba(255, 255, 255, 0.4);
       letter-spacing: 0.04em;
     }
 
     .quarter-name {
-      font-size: clamp(11px, 3.5vw, 16px);
+      font-size: clamp(10px, 4cqw, 16px);
       font-weight: 400;
       color: rgba(255, 255, 255, 0.75);
       letter-spacing: 0.03em;
@@ -81,28 +91,30 @@
 
     .progress-track {
       display: flex;
-      gap: clamp(2px, 0.8vw, 5px);
+      gap: clamp(2px, 0.8cqw, 4px);
       width: 100%;
     }
 
     .pip {
       flex: 1;
-      height: clamp(3px, 0.8vw, 5px);
+      height: clamp(3px, 0.9cqw, 5px);
       border-radius: 2px;
       background: rgba(255, 255, 255, 0.1);
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="version">v5</div>
-    <div class="label">UCLA · Quarter Progress</div>
-    <div class="week-row">
-      <div class="week-number" id="weekNum">—</div>
-      <div class="week-of" id="weekOf"></div>
+  <div class="wrapper">
+    <div class="card">
+      <div class="version">v6</div>
+      <div class="label">UCLA · Quarter Progress</div>
+      <div class="week-row">
+        <div class="week-number" id="weekNum">—</div>
+        <div class="week-of" id="weekOf"></div>
+      </div>
+      <div class="quarter-name" id="quarterName">—</div>
+      <div class="progress-track" id="pips"></div>
     </div>
-    <div class="quarter-name" id="quarterName">—</div>
-    <div class="progress-track" id="pips"></div>
   </div>
 
   <script>
