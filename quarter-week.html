@@ -8,60 +8,68 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
+    html, body {
+      width: 100%;
+      height: 100%;
       background: #191919;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
       font-family: 'DM Sans', sans-serif;
+      overflow: hidden;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 28px 36px;
+      width: 100%;
+      height: 100%;
+      padding: 5vw;
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      width: 90%;
-      max-width: 320px;
-      backdrop-filter: blur(12px);
+      justify-content: center;
+      gap: 1.5vw;
+      position: relative;
+    }
+
+    .version {
+      position: absolute;
+      top: 3vw;
+      left: 4vw;
+      font-size: clamp(8px, 1.8vw, 11px);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.2);
+      text-transform: uppercase;
     }
 
     .label {
-      font-size: 11px;
+      font-size: clamp(8px, 2vw, 11px);
       font-weight: 500;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.35);
+      margin-top: 4vw;
     }
 
     .week-row {
       display: flex;
       align-items: baseline;
-      gap: 10px;
+      gap: 1.5vw;
     }
 
     .week-number {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(40px, 10vw, 72px);
+      font-size: clamp(32px, 18vw, 80px);
       line-height: 1;
       color: #FFD100;
       letter-spacing: 0.02em;
     }
 
     .week-of {
-      font-size: 13px;
+      font-size: clamp(10px, 3vw, 14px);
       font-weight: 300;
       color: rgba(255, 255, 255, 0.4);
       letter-spacing: 0.04em;
-      padding-bottom: 6px;
     }
 
     .quarter-name {
-      font-size: 15px;
+      font-size: clamp(11px, 3.5vw, 16px);
       font-weight: 400;
       color: rgba(255, 255, 255, 0.75);
       letter-spacing: 0.03em;
@@ -69,25 +77,25 @@
 
     .progress-track {
       display: flex;
-      gap: 4px;
-      margin-top: 2px;
+      gap: clamp(2px, 0.8vw, 5px);
+      width: 100%;
     }
 
     .pip {
       flex: 1;
-      height: 4px;
+      height: clamp(3px, 0.8vw, 5px);
       border-radius: 2px;
       background: rgba(255, 255, 255, 0.1);
-      transition: background 0.3s ease;
     }
   </style>
 </head>
 <body>
   <div class="card">
+    <div class="version">v4</div>
     <div class="label">UCLA · Quarter Progress</div>
     <div class="week-row">
       <div class="week-number" id="weekNum">—</div>
-      <div class="week-of" id="weekOf">of 10</div>
+      <div class="week-of" id="weekOf"></div>
     </div>
     <div class="quarter-name" id="quarterName">—</div>
     <div class="progress-track" id="pips"></div>
@@ -100,7 +108,6 @@
       { name: "Winter '27", start: 1799020800000, end: 1805846400000 },
       { name: "Spring '27", start: 1805846400000, end: 1805846400000 + (10 * 7 * 86400000) },
     ];
-
     const TOTAL_WEEKS = 10;
 
     function getQuarterInfo() {
@@ -112,7 +119,6 @@
           return { week, name: q.name };
         }
       }
-      // Between quarters — show upcoming
       for (const q of QUARTERS) {
         if (now < q.start) return { week: 0, name: `Before ${q.name}` };
       }
@@ -127,20 +133,15 @@
 
       const pips = document.getElementById('pips');
       pips.innerHTML = '';
-      const BLUE = '#2774AE';
-      const GOLD = '#FFD100';
+      const BLUE = '#2774AE', GOLD = '#FFD100';
       for (let i = 1; i <= TOTAL_WEEKS; i++) {
         const pip = document.createElement('div');
-        const color = i % 2 === 1 ? BLUE : GOLD; // blue first (odd), gold second (even)
-        if (i < week) {
-          pip.style.background = color;
-        } else if (i === week) {
-          pip.style.background = color;
-          pip.style.boxShadow = `0 0 6px ${color}99`;
-        } else {
-          pip.style.background = 'rgba(255,255,255,0.1)';
-        }
         pip.className = 'pip';
+        const color = i % 2 === 1 ? BLUE : GOLD;
+        if (i <= week) {
+          pip.style.background = color;
+          if (i === week) pip.style.boxShadow = `0 0 6px ${color}99`;
+        }
         pips.appendChild(pip);
       }
     }
