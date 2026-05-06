@@ -79,15 +79,6 @@
       background: rgba(255, 255, 255, 0.1);
       transition: background 0.3s ease;
     }
-
-    .pip.filled {
-      background: #FFD100;
-    }
-
-    .pip.current {
-      background: #FFB700;
-      box-shadow: 0 0 6px #FFD10088;
-    }
   </style>
 </head>
 <body>
@@ -135,9 +126,20 @@
 
       const pips = document.getElementById('pips');
       pips.innerHTML = '';
+      const BLUE = '#2774AE';
+      const GOLD = '#FFD100';
       for (let i = 1; i <= TOTAL_WEEKS; i++) {
         const pip = document.createElement('div');
-        pip.className = 'pip' + (i < week ? ' filled' : i === week ? ' current' : '');
+        const color = i % 2 === 1 ? BLUE : GOLD; // blue first (odd), gold second (even)
+        if (i < week) {
+          pip.style.background = color;
+        } else if (i === week) {
+          pip.style.background = color;
+          pip.style.boxShadow = `0 0 6px ${color}99`;
+        } else {
+          pip.style.background = 'rgba(255,255,255,0.1)';
+        }
+        pip.className = 'pip';
         pips.appendChild(pip);
       }
     }
