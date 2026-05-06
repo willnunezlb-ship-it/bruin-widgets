@@ -105,7 +105,7 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v7</div>
+      <div class="version">v8</div>
       <div class="label">UCLA · Quarter Progress</div>
       <div class="week-row">
         <div class="week-number" id="weekNum">—</div>
@@ -119,8 +119,12 @@
   <script>
     // Lock card height to 65% of its width (roughly 3:2 ratio)
     const card = document.querySelector('.card');
+    let rafId = null;
     const ro = new ResizeObserver(() => {
-      card.style.height = (card.offsetWidth * 0.65) + 'px';
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        card.style.height = (card.offsetWidth * 0.65) + 'px';
+      });
     });
     ro.observe(card);
 
