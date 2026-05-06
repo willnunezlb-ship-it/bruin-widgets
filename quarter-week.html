@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quarter Week</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 28px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-width: 260px;
+      backdrop-filter: blur(12px);
+    }
+
+    .label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .week-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .week-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 72px;
+      line-height: 1;
+      color: #FFD100;
+      letter-spacing: 0.02em;
+    }
+
+    .week-of {
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 0.04em;
+      padding-bottom: 6px;
+    }
+
+    .quarter-name {
+      font-size: 15px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.75);
+      letter-spacing: 0.03em;
+    }
+
+    .progress-track {
+      display: flex;
+      gap: 4px;
+      margin-top: 2px;
+    }
+
+    .pip {
+      flex: 1;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.1);
+      transition: background 0.3s ease;
+    }
+
+    .pip.filled {
+      background: #FFD100;
+    }
+
+    .pip.current {
+      background: #FFB700;
+      box-shadow: 0 0 6px #FFD10088;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="label">UCLA · Quarter Progress</div>
+    <div class="week-row">
+      <div class="week-number" id="weekNum">—</div>
+      <div class="week-of" id="weekOf">of 10</div>
+    </div>
+    <div class="quarter-name" id="quarterName">—</div>
+    <div class="progress-track" id="pips"></div>
+  </div>
+
+  <script>
+    const QUARTERS = [
+      { name: "Spring '26", start: 1774828800000, end: 1789948800000 },
+      { name: "Fall '26",   start: 1789948800000, end: 1799020800000 },
+      { name: "Winter '27", start: 1799020800000, end: 1805846400000 },
+      { name: "Spring '27", start: 1805846400000, end: 1805846400000 + (10 * 7 * 86400000) },
+    ];
+
+    const TOTAL_WEEKS = 10;
+
+    function getQuarterInfo() {
+      const now = Date.now();
+      for (const q of QUARTERS) {
+        if (now >= q.start && now < q.end) {
+          const days = Math.floor((now - q.start) / 86400000);
+          const week = Math.min(TOTAL_WEEKS, Math.max(1, Math.ceil((days + 1) / 7)));
+          return { week, name: q.name };
+        }
+      }
+      // Between quarters — show upcoming
+      for (const q of QUARTERS) {
+        if (now < q.start) return { week: 0, name: `Before ${q.name}` };
+      }
+      return { week: 0, name: "Quarter Complete" };
+    }
+
+    function render() {
+      const { week, name } = getQuarterInfo();
+      document.getElementById('weekNum').textContent = week || '—';
+      document.getElementById('weekOf').textContent = week ? `of ${TOTAL_WEEKS}` : '';
+      document.getElementById('quarterName').textContent = name;
+
+      const pips = document.getElementById('pips');
+      pips.innerHTML = '';
+      for (let i = 1; i <= TOTAL_WEEKS; i++) {
+        const pip = document.createElement('div');
+        pip.className = 'pip' + (i < week ? ' filled' : i === week ? ' current' : '');
+        pips.appendChild(pip);
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>
