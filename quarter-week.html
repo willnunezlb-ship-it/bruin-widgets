@@ -16,14 +16,13 @@
       overflow: hidden;
     }
 
-    /* wrapper just provides the 8px inset */
     .wrapper {
       width: 100%;
+      height: 100%;
       padding: 8px;
       display: flex;
     }
 
-    /* card width fills column; height is set by JS to maintain 3:2 ratio */
     .card {
       container-type: inline-size;
       container-name: card;
@@ -42,9 +41,9 @@
 
     .version {
       position: absolute;
-      top: 3cqw;
-      left: 4cqw;
-      font-size: clamp(7px, 2cqw, 10px);
+      top: 2.5cqw;
+      left: 3.5cqw;
+      font-size: 1.6cqw;
       font-weight: 500;
       letter-spacing: 0.1em;
       color: rgba(255,255,255,0.2);
@@ -52,12 +51,11 @@
     }
 
     .label {
-      font-size: clamp(7px, 2.2cqw, 11px);
+      font-size: 2cqw;
       font-weight: 500;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.35);
-      margin-top: 3cqw;
     }
 
     .week-row {
@@ -68,21 +66,21 @@
 
     .week-number {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(28px, 20cqw, 84px);
+      font-size: 18cqw;
       line-height: 1;
       color: #FFD100;
       letter-spacing: 0.02em;
     }
 
     .week-of {
-      font-size: clamp(9px, 3.5cqw, 14px);
+      font-size: 3.5cqw;
       font-weight: 300;
       color: rgba(255, 255, 255, 0.4);
       letter-spacing: 0.04em;
     }
 
     .quarter-name {
-      font-size: clamp(10px, 4cqw, 16px);
+      font-size: 4cqw;
       font-weight: 400;
       color: rgba(255, 255, 255, 0.75);
       letter-spacing: 0.03em;
@@ -90,13 +88,13 @@
 
     .progress-track {
       display: flex;
-      gap: clamp(2px, 0.8cqw, 4px);
+      gap: 0.8cqw;
       width: 100%;
     }
 
     .pip {
       flex: 1;
-      height: clamp(3px, 0.9cqw, 5px);
+      height: 0.8cqw;
       border-radius: 2px;
       background: rgba(255, 255, 255, 0.1);
     }
@@ -105,7 +103,7 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v7</div>
+      <div class="version">v14</div>
       <div class="label">UCLA · Quarter Progress</div>
       <div class="week-row">
         <div class="week-number" id="weekNum">—</div>
@@ -117,10 +115,14 @@
   </div>
 
   <script>
-    // Lock card height to 65% of its width (roughly 3:2 ratio)
+    // Lock card height to 65% of its width — debounced to prevent infinite loop
     const card = document.querySelector('.card');
+    let rafId = null;
     const ro = new ResizeObserver(() => {
-      card.style.height = (card.offsetWidth * 0.65) + 'px';
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        card.style.height = (card.offsetWidth * 0.65) + 'px';
+      });
     });
     ro.observe(card);
 
