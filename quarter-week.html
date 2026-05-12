@@ -95,13 +95,18 @@
       margin-top: -2.5cqw;
     }
 
+    .progress-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8cqw;
+      width: calc(100% + 3cqw);
+      margin-top: 1cqw;
+    }
+
     .progress-track {
       display: flex;
       gap: clamp(2px, 0.8cqw, 4px);
-      width: calc(100% + 3cqw);
-      margin-left: 0;
-      margin-right: -3cqw;
-      margin-top: 1cqw;
+      width: 100%;
     }
 
     .pip {
@@ -115,14 +120,17 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v37</div>
+      <div class="version">v38</div>
       <div class="label">UCLA · Quarter Progress</div>
       <div class="week-row">
         <div class="week-number" id="weekNum">—</div>
         <div class="week-of" id="weekOf"></div>
       </div>
       <div class="quarter-name" id="quarterName">—</div>
-      <div class="progress-track" id="pips"></div>
+      <div class="progress-wrapper">
+        <div class="progress-track" id="pips-top"></div>
+        <div class="progress-track" id="pips-bottom"></div>
+      </div>
     </div>
   </div>
 
@@ -166,8 +174,10 @@
       document.getElementById('weekOf').textContent = week ? `of ${TOTAL_WEEKS}` : '';
       document.getElementById('quarterName').textContent = name;
 
-      const pips = document.getElementById('pips');
-      pips.innerHTML = '';
+      const top = document.getElementById('pips-top');
+      const bottom = document.getElementById('pips-bottom');
+      top.innerHTML = '';
+      bottom.innerHTML = '';
       const BLUE = '#2774AE', GOLD = '#FFD100';
       for (let i = 1; i <= TOTAL_WEEKS; i++) {
         const pip = document.createElement('div');
@@ -177,7 +187,8 @@
           pip.style.background = color;
           if (i === week) pip.style.boxShadow = `0 0 6px ${color}99`;
         }
-        pips.appendChild(pip);
+        if (i <= 5) top.appendChild(pip);
+        else bottom.appendChild(pip);
       }
     }
 
