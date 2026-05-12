@@ -110,7 +110,7 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v33</div>
+      <div class="version">v34</div>
       <div class="label">UCLA · Quarter Progress</div>
       <div class="week-row">
         <div class="week-number" id="weekNum">—</div>
@@ -127,7 +127,7 @@
     const ro = new ResizeObserver(() => {
       if (rafId) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
-        card.style.height = (card.offsetWidth * 0.36) + 'px';
+        card.style.height = (card.offsetWidth * 0.30) + 'px';
       });
     });
     ro.observe(card);
