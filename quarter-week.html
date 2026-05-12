@@ -69,21 +69,21 @@
 
     .week-number {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(32px, 22cqw, 95px);
+      font-size: clamp(32px, 25cqw, 105px);
       line-height: 0.82;
       color: #FFD100;
       letter-spacing: 0.02em;
     }
 
     .week-of {
-      font-size: clamp(12px, 4.5cqw, 18px);
+      font-size: clamp(12px, 5.5cqw, 22px);
       font-weight: 300;
       color: rgba(255, 255, 255, 0.4);
       letter-spacing: 0.04em;
     }
 
     .quarter-name {
-      font-size: clamp(13px, 5.5cqw, 22px);
+      font-size: clamp(13px, 7cqw, 28px);
       font-weight: 400;
       color: rgba(255, 255, 255, 0.75);
       letter-spacing: 0.03em;
@@ -93,13 +93,15 @@
     .progress-track {
       display: flex;
       gap: clamp(2px, 0.8cqw, 4px);
-      width: 100%;
+      width: calc(100% + 6cqw);
+      margin-left: -3cqw;
+      margin-right: -3cqw;
       margin-top: 2cqw;
     }
 
     .pip {
       flex: 1;
-      height: clamp(4px, 1.2cqw, 7px);
+      height: clamp(3px, 1.2cqw, 6px);
       border-radius: 2px;
       background: rgba(255, 255, 255, 0.1);
     }
@@ -108,7 +110,7 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v28</div>
+      <div class="version">v30</div>
       <div class="label">UCLA · Quarter Progress</div>
       <div class="week-row">
         <div class="week-number" id="weekNum">—</div>
