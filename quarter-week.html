@@ -30,7 +30,7 @@
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
-      padding: 3cqw 4cqw 4cqw 3cqw;
+      padding: 1.5cqw 4cqw 2cqw 3cqw;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -68,31 +68,33 @@
       pointer-events: none;
     }
 
+    /* number + right-stack sit side by side, aligned to bottom */
     .main-row {
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       gap: 1cqw;
-      flex: 1;
     }
 
     .week-number {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(32px, 25cqw, 105px);
-      line-height: 0.82;
+      font-size: clamp(60px, 30cqw, 130px);
+      line-height: 1;
       color: #FFD100;
       letter-spacing: 0.02em;
       flex-shrink: 0;
     }
 
+    /* right stack: of 10 on top, Spring '26 below, both bottom-flush with number */
     .right-stack {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-end;
       gap: 0.5cqw;
+      padding-bottom: 0.3cqw;
     }
 
     .week-of {
-      font-size: clamp(12px, 5.5cqw, 22px);
+      font-size: clamp(11px, 4.5cqw, 18px);
       font-weight: 300;
       color: rgba(255, 255, 255, 0.4);
       letter-spacing: 0.04em;
@@ -100,7 +102,7 @@
     }
 
     .quarter-name {
-      font-size: clamp(13px, 5.5cqw, 22px);
+      font-size: clamp(12px, 4.5cqw, 18px);
       font-weight: 400;
       color: rgba(255, 255, 255, 0.75);
       letter-spacing: 0.03em;
@@ -111,7 +113,7 @@
       display: flex;
       gap: clamp(2px, 0.8cqw, 4px);
       width: 100%;
-      margin-top: 2cqw;
+      margin-top: 1.5cqw;
     }
 
     .pip {
@@ -125,7 +127,7 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v45</div>
+      <div class="version">v46</div>
       <div class="label">UCLA · Quarter Progress</div>
       <div class="main-row">
         <div class="week-number" id="weekNum">—</div>
