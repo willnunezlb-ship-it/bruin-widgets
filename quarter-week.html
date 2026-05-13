@@ -30,11 +30,10 @@
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
-      padding: 3cqw 6cqw 5cqw 3cqw;
+      padding: 3cqw 4cqw 4cqw 3cqw;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      gap: 0;
+      justify-content: space-between;
       position: relative;
       overflow: hidden;
     }
@@ -53,6 +52,7 @@
       padding: 0.3cqw 0.6cqw;
       border-radius: 3px;
       pointer-events: none;
+      z-index: 2;
     }
 
     .label {
@@ -65,12 +65,14 @@
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.35);
       text-align: right;
+      pointer-events: none;
     }
 
-    .week-row {
+    .main-row {
       display: flex;
-      align-items: baseline;
-      gap: 0.8cqw;
+      align-items: center;
+      gap: 1cqw;
+      flex: 1;
     }
 
     .week-number {
@@ -79,6 +81,14 @@
       line-height: 0.82;
       color: #FFD100;
       letter-spacing: 0.02em;
+      flex-shrink: 0;
+    }
+
+    .right-stack {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.5cqw;
     }
 
     .week-of {
@@ -86,21 +96,22 @@
       font-weight: 300;
       color: rgba(255, 255, 255, 0.4);
       letter-spacing: 0.04em;
+      line-height: 1;
     }
 
     .quarter-name {
-      font-size: clamp(13px, 7cqw, 28px);
+      font-size: clamp(13px, 5.5cqw, 22px);
       font-weight: 400;
       color: rgba(255, 255, 255, 0.75);
       letter-spacing: 0.03em;
-      margin-top: -2.5cqw;
+      line-height: 1;
     }
 
     .progress-track {
       display: flex;
       gap: clamp(2px, 0.8cqw, 4px);
-      width: calc(100% + 3cqw);
-      margin-top: 1cqw;
+      width: 100%;
+      margin-top: 2cqw;
     }
 
     .pip {
@@ -114,13 +125,15 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v42</div>
+      <div class="version">v45</div>
       <div class="label">UCLA · Quarter Progress</div>
-      <div class="week-row">
+      <div class="main-row">
         <div class="week-number" id="weekNum">—</div>
-        <div class="week-of" id="weekOf"></div>
+        <div class="right-stack">
+          <div class="week-of" id="weekOf"></div>
+          <div class="quarter-name" id="quarterName">—</div>
+        </div>
       </div>
-      <div class="quarter-name" id="quarterName">—</div>
       <div class="progress-track" id="pips"></div>
     </div>
   </div>
