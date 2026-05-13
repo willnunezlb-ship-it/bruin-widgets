@@ -26,7 +26,7 @@
       container-type: inline-size;
       container-name: card;
       flex: 1;
-      max-height: 200px;
+      max-height: 165px;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
@@ -114,7 +114,7 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v41</div>
+      <div class="version">v42</div>
       <div class="label">UCLA · Quarter Progress</div>
       <div class="week-row">
         <div class="week-number" id="weekNum">—</div>
@@ -131,7 +131,7 @@
     const ro = new ResizeObserver(() => {
       if (rafId) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
-        card.style.height = Math.min(card.offsetWidth * 0.34, 200) + 'px';
+        card.style.height = Math.min(card.offsetWidth * 0.34, 165) + 'px';
       });
     });
     ro.observe(card);
