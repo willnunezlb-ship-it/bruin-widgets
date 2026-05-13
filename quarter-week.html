@@ -68,7 +68,7 @@
       pointer-events: none;
     }
 
-    /* number + right-stack sit side by side, aligned to bottom */
+    /* align-items: flex-end lines up the bottom of the number with the bottom of the right stack */
     .main-row {
       display: flex;
       align-items: flex-end;
@@ -77,20 +77,19 @@
 
     .week-number {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(60px, 30cqw, 130px);
+      font-size: clamp(70px, 35cqw, 140px);
       line-height: 1;
       color: #FFD100;
       letter-spacing: 0.02em;
       flex-shrink: 0;
     }
 
-    /* right stack: of 10 on top, Spring '26 below, both bottom-flush with number */
+    /* right stack: of 10 on top, Spring '26 on bottom — bottom of stack = bottom of number */
     .right-stack {
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      gap: 0.5cqw;
-      padding-bottom: 0.3cqw;
+      gap: 0.8cqw;
     }
 
     .week-of {
@@ -127,7 +126,7 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v46</div>
+      <div class="version">v47</div>
       <div class="label">UCLA · Quarter Progress</div>
       <div class="main-row">
         <div class="week-number" id="weekNum">—</div>
