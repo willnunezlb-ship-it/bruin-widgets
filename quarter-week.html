@@ -23,7 +23,7 @@
     }
 
     .card {
-      container-type: inline-size;
+      container-type: size;
       container-name: card;
       flex: 1;
       max-height: 165px;
@@ -68,23 +68,24 @@
       pointer-events: none;
     }
 
-    /* align-items: flex-end lines up the bottom of the number with the bottom of the right stack */
     .main-row {
       display: flex;
       align-items: flex-end;
       gap: 1cqw;
+      flex: 1;
+      min-height: 0;
     }
 
+    /* number capped by both width AND height so it never overflows */
     .week-number {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(70px, 35cqw, 140px);
+      font-size: min(28cqw, 55cqh);
       line-height: 1;
       color: #FFD100;
       letter-spacing: 0.02em;
       flex-shrink: 0;
     }
 
-    /* right stack: of 10 on top, Spring '26 on bottom — bottom of stack = bottom of number */
     .right-stack {
       display: flex;
       flex-direction: column;
@@ -93,7 +94,7 @@
     }
 
     .week-of {
-      font-size: clamp(11px, 4.5cqw, 18px);
+      font-size: min(4cqw, 14cqh);
       font-weight: 300;
       color: rgba(255, 255, 255, 0.4);
       letter-spacing: 0.04em;
@@ -101,7 +102,7 @@
     }
 
     .quarter-name {
-      font-size: clamp(12px, 4.5cqw, 18px);
+      font-size: min(4cqw, 14cqh);
       font-weight: 400;
       color: rgba(255, 255, 255, 0.75);
       letter-spacing: 0.03em;
@@ -113,6 +114,7 @@
       gap: clamp(2px, 0.8cqw, 4px);
       width: 100%;
       margin-top: 1.5cqw;
+      flex-shrink: 0;
     }
 
     .pip {
@@ -126,7 +128,7 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v47</div>
+      <div class="version">v48</div>
       <div class="label">UCLA · Quarter Progress</div>
       <div class="main-row">
         <div class="week-number" id="weekNum">—</div>
