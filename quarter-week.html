@@ -33,7 +33,7 @@
       padding: 1.5cqw 4cqw 2cqw 3cqw;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
       position: relative;
       overflow: hidden;
     }
@@ -70,7 +70,7 @@
 
     .main-row {
       display: flex;
-      align-items: center;
+      align-items: stretch;
       gap: 1cqw;
       flex: 1;
       min-height: 0;
@@ -79,11 +79,13 @@
     /* number capped by both width AND height so it never overflows */
     .week-number {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: min(28cqw, 72cqh);
+      font-size: min(46cqw, 96cqh);
       line-height: 1;
       color: #FFD100;
       letter-spacing: 0.02em;
       flex-shrink: 0;
+      display: flex;
+      align-items: flex-start;
     }
 
     .right-stack {
@@ -91,6 +93,8 @@
       flex-direction: column;
       justify-content: flex-end;
       gap: 0.8cqw;
+      padding-bottom: 6cqw;
+      margin-top: -6cqw;
     }
 
     .week-of {
@@ -113,7 +117,7 @@
       display: flex;
       gap: clamp(2px, 0.8cqw, 4px);
       width: 100%;
-      margin-top: 1.5cqw;
+      margin-top: -11cqw;
       flex-shrink: 0;
     }
 
@@ -128,7 +132,7 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v51</div>
+      <div class="version">v57</div>
       <div class="label">UCLA · Quarter Progress</div>
       <div class="main-row">
         <div class="week-number" id="weekNum">—</div>
