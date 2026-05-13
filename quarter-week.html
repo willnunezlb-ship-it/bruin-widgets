@@ -102,7 +102,7 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v63</div>
+      <div class="version">v68</div>
       <div class="label">UCLA · Quarter Progress</div>
       <div class="week-number" id="weekNum">—</div>
       <div class="week-of" id="weekOf"></div>
@@ -146,47 +146,48 @@
       const H = Math.min(W * 0.34, 165);
       card.style.height = H + 'px';
 
-      const padL   = W * 0.03;   // left pad
-      const padT   = H * 0.08;   // top pad
-      const padB   = H * 0.10;   // bottom pad
-      const pipH   = Math.max(3, W * 0.008);
-      const gap    = H * 0.06;   // gap between text and pip
+      const padL    = W * 0.03;
+      const padT    = H * 0.06;
+      const padB    = H * 0.10;
+      const pipH    = Math.max(3, W * 0.008);
+      const pipGap  = H * 0.04;
 
-      // number takes up most of the vertical content area
-      const numSize = H - padT - padB - pipH - gap;
+      // how tall the VISIBLE glyph should be
+      const capH = H - padT - padB - pipH - pipGap;
+
+      // Bebas Neue cap height is ~72% of font-size — divide to get true font-size
+      const CAP_RATIO = 0.72;
+      const numSize = capH / CAP_RATIO;
+
+      // ascender gap above the cap is ~12% of font-size — shift number up by that
+      const ascGap = numSize * 0.12;
+
       weekNum.style.fontSize = numSize + 'px';
       weekNum.style.left     = padL + 'px';
-      weekNum.style.top      = padT + 'px';
+      weekNum.style.top      = (padT - ascGap) + 'px';
 
-      // measure number width
       const numW = weekNum.offsetWidth;
 
-      // right text sizes
-      const textSize = numSize * 0.22;
-      weekOf.style.fontSize  = textSize + 'px';
-      qName.style.fontSize   = textSize + 'px';
+      // visible bottom of number = padT + capH
+      const numBottom = padT + capH * 0.95;
 
-      // measure text heights
-      const ofH  = weekOf.offsetHeight;
-      const qH   = qName.offsetHeight;
-      const textGap = numSize * 0.06;
-      const stackH  = ofH + textGap + qH;
+      const textSize = capH * 0.22;
+      weekOf.style.fontSize = textSize + 'px';
+      qName.style.fontSize  = textSize + 'px';
 
-      // bottom of number = padT + numSize
-      const numBottom = padT + numSize;
-
-      // align bottom of Spring '26 with bottom of number
-      const qBottom = numBottom;
-      const ofBottom = qBottom - qH - textGap;
-
+      const ofH      = weekOf.offsetHeight;
+      const qH       = qName.offsetHeight;
+      const textGap  = capH * 0.06;
       const textLeft = padL + numW + W * 0.015;
-      weekOf.style.left = textLeft + 'px';
-      weekOf.style.top  = ofBottom - ofH + 'px';
-      qName.style.left  = textLeft + 'px';
-      qName.style.top   = qBottom - qH + 'px';
 
-      // pip bar just below number, flush left to right with small side pad
-      const pipTop = numBottom + gap * 0.5;
+      // bottom of Spring '26 = bottom of visible 7
+      qName.style.left = textLeft + 'px';
+      qName.style.top  = (numBottom - qH) + 'px';
+      weekOf.style.left = textLeft + 'px';
+      weekOf.style.top  = (numBottom - qH - textGap - ofH) + 'px';
+
+      // pip bar just below visible number bottom
+      const pipTop = numBottom + pipGap;
       pips.style.top    = pipTop + 'px';
       pips.style.left   = padL + 'px';
       pips.style.right  = (W * 0.04) + 'px';
