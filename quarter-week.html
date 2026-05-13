@@ -23,33 +23,27 @@
     }
 
     .card {
-      container-type: size;
-      container-name: card;
       flex: 1;
       max-height: 165px;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
-      padding: 1.5cqw 4cqw 2cqw 3cqw;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
       position: relative;
       overflow: hidden;
     }
 
     .version {
       position: absolute;
-      top: 1.5cqw;
-      left: 1.5cqw;
-      font-size: clamp(7px, 2cqw, 10px);
+      top: 8px;
+      left: 8px;
+      font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.1em;
       color: white;
       text-transform: uppercase;
       background: black;
       outline: 1px solid white;
-      padding: 0.3cqw 0.6cqw;
+      padding: 2px 5px;
       border-radius: 3px;
       pointer-events: none;
       z-index: 2;
@@ -57,48 +51,26 @@
 
     .label {
       position: absolute;
-      top: 3cqw;
-      right: 4cqw;
-      font-size: clamp(9px, 3cqw, 14px);
+      top: 12px;
+      right: 16px;
+      font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.35);
-      text-align: right;
       pointer-events: none;
     }
 
-    .main-row {
-      display: flex;
-      align-items: stretch;
-      gap: 1cqw;
-      flex: 1;
-      min-height: 0;
-    }
-
-    /* number capped by both width AND height so it never overflows */
     .week-number {
+      position: absolute;
       font-family: 'Bebas Neue', sans-serif;
-      font-size: min(46cqw, 96cqh);
       line-height: 1;
       color: #FFD100;
       letter-spacing: 0.02em;
-      flex-shrink: 0;
-      display: flex;
-      align-items: flex-start;
-    }
-
-    .right-stack {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      gap: 0.8cqw;
-      padding-bottom: 6cqw;
-      margin-top: -6cqw;
     }
 
     .week-of {
-      font-size: min(5.5cqw, 18cqh);
+      position: absolute;
       font-weight: 300;
       color: rgba(255, 255, 255, 0.4);
       letter-spacing: 0.04em;
@@ -106,7 +78,7 @@
     }
 
     .quarter-name {
-      font-size: min(5.5cqw, 18cqh);
+      position: absolute;
       font-weight: 400;
       color: rgba(255, 255, 255, 0.75);
       letter-spacing: 0.03em;
@@ -114,16 +86,14 @@
     }
 
     .progress-track {
+      position: absolute;
       display: flex;
-      gap: clamp(2px, 0.8cqw, 4px);
-      width: 100%;
-      margin-top: -11cqw;
-      flex-shrink: 0;
+      left: 0;
+      right: 0;
     }
 
     .pip {
       flex: 1;
-      height: clamp(3px, 1.2cqw, 6px);
       border-radius: 2px;
       background: rgba(255, 255, 255, 0.1);
     }
@@ -132,29 +102,21 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v57</div>
+      <div class="version">v63</div>
       <div class="label">UCLA · Quarter Progress</div>
-      <div class="main-row">
-        <div class="week-number" id="weekNum">—</div>
-        <div class="right-stack">
-          <div class="week-of" id="weekOf"></div>
-          <div class="quarter-name" id="quarterName">—</div>
-        </div>
-      </div>
+      <div class="week-number" id="weekNum">—</div>
+      <div class="week-of" id="weekOf"></div>
+      <div class="quarter-name" id="quarterName">—</div>
       <div class="progress-track" id="pips"></div>
     </div>
   </div>
 
   <script>
-    const card = document.querySelector('.card');
-    let rafId = null;
-    const ro = new ResizeObserver(() => {
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        card.style.height = Math.min(card.offsetWidth * 0.34, 165) + 'px';
-      });
-    });
-    ro.observe(card);
+    const card    = document.querySelector('.card');
+    const weekNum = document.getElementById('weekNum');
+    const weekOf  = document.getElementById('weekOf');
+    const qName   = document.getElementById('quarterName');
+    const pips    = document.getElementById('pips');
 
     const QUARTERS = [
       { name: "Spring '26", start: 1774828800000, end: 1789948800000 },
@@ -179,18 +141,65 @@
       return { week: 0, name: "Quarter Complete" };
     }
 
-    function render() {
-      const { week, name } = getQuarterInfo();
-      document.getElementById('weekNum').textContent = week || '—';
-      document.getElementById('weekOf').textContent = week ? `of ${TOTAL_WEEKS}` : '';
-      document.getElementById('quarterName').textContent = name;
+    function layout() {
+      const W = card.offsetWidth;
+      const H = Math.min(W * 0.34, 165);
+      card.style.height = H + 'px';
 
-      const pips = document.getElementById('pips');
+      const padL   = W * 0.03;   // left pad
+      const padT   = H * 0.08;   // top pad
+      const padB   = H * 0.10;   // bottom pad
+      const pipH   = Math.max(3, W * 0.008);
+      const gap    = H * 0.06;   // gap between text and pip
+
+      // number takes up most of the vertical content area
+      const numSize = H - padT - padB - pipH - gap;
+      weekNum.style.fontSize = numSize + 'px';
+      weekNum.style.left     = padL + 'px';
+      weekNum.style.top      = padT + 'px';
+
+      // measure number width
+      const numW = weekNum.offsetWidth;
+
+      // right text sizes
+      const textSize = numSize * 0.22;
+      weekOf.style.fontSize  = textSize + 'px';
+      qName.style.fontSize   = textSize + 'px';
+
+      // measure text heights
+      const ofH  = weekOf.offsetHeight;
+      const qH   = qName.offsetHeight;
+      const textGap = numSize * 0.06;
+      const stackH  = ofH + textGap + qH;
+
+      // bottom of number = padT + numSize
+      const numBottom = padT + numSize;
+
+      // align bottom of Spring '26 with bottom of number
+      const qBottom = numBottom;
+      const ofBottom = qBottom - qH - textGap;
+
+      const textLeft = padL + numW + W * 0.015;
+      weekOf.style.left = textLeft + 'px';
+      weekOf.style.top  = ofBottom - ofH + 'px';
+      qName.style.left  = textLeft + 'px';
+      qName.style.top   = qBottom - qH + 'px';
+
+      // pip bar just below number, flush left to right with small side pad
+      const pipTop = numBottom + gap * 0.5;
+      pips.style.top    = pipTop + 'px';
+      pips.style.left   = padL + 'px';
+      pips.style.right  = (W * 0.04) + 'px';
+      pips.style.height = pipH + 'px';
+
+      // rebuild pips
+      const { week } = getQuarterInfo();
       pips.innerHTML = '';
       const BLUE = '#2774AE', GOLD = '#FFD100';
       for (let i = 1; i <= TOTAL_WEEKS; i++) {
         const pip = document.createElement('div');
         pip.className = 'pip';
+        pip.style.height = pipH + 'px';
         const color = i % 2 === 1 ? BLUE : GOLD;
         if (i <= week) {
           pip.style.background = color;
@@ -199,6 +208,21 @@
         pips.appendChild(pip);
       }
     }
+
+    function render() {
+      const { week, name } = getQuarterInfo();
+      weekNum.textContent = week || '—';
+      weekOf.textContent  = week ? `of ${TOTAL_WEEKS}` : '';
+      qName.textContent   = name;
+      layout();
+    }
+
+    let rafId = null;
+    const ro = new ResizeObserver(() => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(layout);
+    });
+    ro.observe(card);
 
     render();
   </script>
