@@ -51,6 +51,7 @@
 
     .label {
       position: absolute;
+      transition: opacity 0.2s ease;
       top: 7px;
       right: 16px;
       font-size: 11px;
@@ -71,6 +72,7 @@
 
     .week-of {
       position: absolute;
+      transition: opacity 0.2s ease;
       font-weight: 300;
       color: rgba(255, 255, 255, 0.4);
       letter-spacing: 0.04em;
@@ -79,6 +81,7 @@
 
     .quarter-name {
       position: absolute;
+      transition: opacity 0.2s ease;
       font-weight: 400;
       color: rgba(255, 255, 255, 0.75);
       letter-spacing: 0.03em;
@@ -87,6 +90,7 @@
 
     .progress-track {
       position: absolute;
+      transition: opacity 0.2s ease;
       display: flex;
       left: 0;
       right: 0;
@@ -108,7 +112,7 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v83</div>
+      <div class="version">v84</div>
       <div class="label">Quarter Progress</div>
       <div class="week-number" id="weekNum">—</div>
       <div class="week-of" id="weekOf"></div>
@@ -202,11 +206,19 @@
 
       // Logo: vertically centered in the card
       const logoH   = H * 0.50;
-      const logoTop = (H - logoH) / 2;
+      const logoTop = (H - logoH) / 2 - 2;
       logo.style.top    = logoTop + 'px';
       logo.style.right  = '16px';
       logo.style.height = logoH + 'px';
       logo.style.width  = 'auto';
+
+      // Small card mode: hide secondary elements below threshold
+      const SMALL = 320;
+      const hide = W < SMALL ? '0' : '1';
+      weekOf.style.opacity = hide;
+      qName.style.opacity  = hide;
+      pips.style.opacity   = hide;
+      label.style.opacity  = hide;
 
       const { week } = getQuarterInfo();
       pips.innerHTML = '';
