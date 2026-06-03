@@ -24,7 +24,7 @@
 
     .card {
       flex: 1;
-      max-height: 148px;
+      max-height: 136px;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
@@ -108,7 +108,7 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v76</div>
+      <div class="version">v77</div>
       <div class="label">UCLA · Quarter Progress</div>
       <div class="week-number" id="weekNum">—</div>
       <div class="week-of" id="weekOf"></div>
@@ -152,7 +152,7 @@
 
     function layout() {
       const W = card.offsetWidth;
-      const H = Math.min(W * 0.34, 148);
+      const H = Math.min(W * 0.34, 136);
       card.style.height = H + 'px';
 
       const padL    = W * 0.03;
