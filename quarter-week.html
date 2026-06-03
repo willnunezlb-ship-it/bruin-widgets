@@ -116,7 +116,7 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v87</div>
+      <div class="version">v88</div>
       <div class="label">Quarter Progress</div>
       <div class="week-number" id="weekNum">—</div>
       <div class="week-of" id="weekOf"></div>
@@ -212,12 +212,12 @@
       const logoH   = H * 0.50;
       const logoTop = (H - logoH) / 2 - 2;
       logo.style.top    = logoTop + 'px';
-      logo.style.right  = '16px';
+      logo.style.right  = (W * 0.04) + 'px';
       logo.style.height = logoH + 'px';
       logo.style.width  = 'auto';
 
       // Small card mode: hide secondary elements below threshold
-      const SMALL = 180;
+      const SMALL = 100;
       const hide = W < SMALL ? '0' : '1';
       weekOf.style.opacity = hide;
       qName.style.opacity  = hide;
