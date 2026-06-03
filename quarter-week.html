@@ -102,7 +102,7 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v69</div>
+      <div class="version">v68</div>
       <div class="label">UCLA · Quarter Progress</div>
       <div class="week-number" id="weekNum">—</div>
       <div class="week-of" id="weekOf"></div>
@@ -153,7 +153,7 @@
       const pipGap  = H * 0.04;
 
       // how tall the VISIBLE glyph should be
-      const capH = (H - padT - padB - pipH - pipGap) * 0.88;
+      const capH = H - padT - padB - pipH - pipGap;
 
       // Bebas Neue cap height is ~72% of font-size — divide to get true font-size
       const CAP_RATIO = 0.72;
@@ -163,7 +163,7 @@
       const ascGap = numSize * 0.12;
 
       weekNum.style.fontSize = numSize + 'px';
-      weekNum.style.left     = (padL + W * 0.02) + 'px';
+      weekNum.style.left     = padL + 'px';
       weekNum.style.top      = (padT - ascGap) + 'px';
 
       const numW = weekNum.offsetWidth;
