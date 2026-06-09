@@ -116,7 +116,7 @@
 <body>
   <div class="wrapper">
     <div class="card">
-      <div class="version">v96</div>
+      <div class="version">v97</div>
       <div class="label">Quarter Progress</div>
       <div class="week-number" id="weekNum">—</div>
       <div class="week-of" id="weekOf"></div>
@@ -216,6 +216,18 @@
       logo.style.height = logoH + 'px';
       logo.style.width  = 'auto';
 
+      // Quarter name: abbreviate at second smallest breakpoint
+      const ABBREV = 280;
+      if (W < ABBREV) {
+        let abbrev = currentQuarterName;
+        abbrev = abbrev.replace('Spring', 'Spr');
+        abbrev = abbrev.replace('Winter', 'Wintr');
+        abbrev = abbrev.replace('Summer', 'Smmr');
+        qName.textContent = abbrev;
+      } else {
+        qName.textContent = currentQuarterName;
+      }
+
       // Small card mode: hide secondary elements below threshold
       const SMALL = 100;
       const hide = W < SMALL ? '0' : '1';
@@ -240,11 +252,13 @@
       }
     }
 
+    let currentQuarterName = '';
+
     function render() {
       const { week, name } = getQuarterInfo();
+      currentQuarterName = name;
       weekNum.textContent = week || '—';
       weekOf.textContent  = week ? `of ${TOTAL_WEEKS}` : '';
-      qName.textContent   = name;
       layout();
     }
 
